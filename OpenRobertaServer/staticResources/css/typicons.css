@@ -51,6 +51,9 @@
 .typcn-nao:before {
   content: "\e906";
 }
+.typcn-orb:before {
+  content: "\e902";
+}
 .typcn-open:before {
   content: "\e907";
 }
