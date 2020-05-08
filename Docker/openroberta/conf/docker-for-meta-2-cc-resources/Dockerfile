@@ -1,0 +1,2 @@
+ARG CCBIN_VERSION
+FROM openroberta/ccbin:$CCBIN_VERSION

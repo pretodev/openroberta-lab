@@ -1,4 +1,4 @@
-# Operating Instructions for the Test and Prod Server using DOCKER container (2019-07-16 17:00:00)
+# Operating Instructions for the Test and Prod Server using DOCKER container (2020-05-08)
 
 At least to read:
 
@@ -9,20 +9,38 @@ At least to read:
 
 ## generate the "base" IMAGE. This image contains the crosscompiler and the crosscompiler resources (header files, ...).
 
-The docker image "base" is used as basis for further images. It contains all software needed by the crosscompilers, i.e.
+The docker "base" image is used as basis for further images. It contains all software needed by the lab to create binaries for all the robots, i.e.
 
-* the crosscompiler binaries itself. They are installed by calling `apt`
-* header etc. to use together with the cross compiler. They are copied from a clone of the git repository `ora-cc-rsc`.
-* openroberta helper libraries for lejos, nao and raspberryPi.
+* the crosscompiler binaries itself. They are installed by calling `apt`, `wget`, ... .
+* header etc. to be used together with the cross compiler. They are copied from the git repository `ora-cc-rsc`.
 
-_Note:_ If the git repository `ora-cc-rsc` is changed, the base image and all images built upon the base image must be rebuilt. This doesn't
-occur often. But better do not forget. The version of the base image (a simple number) should match a tag in the git repository `ora-cc-rsc`.
-This is to express, that the data from the tag is the data in the base image. The variable `BASE_VERSION` contains the number, which is both a tag name
+This done in two steps. Because the crosscompiler binaries dont't change often, an image `openroberta/ccbin` is build first. From this image the `openroberta/base`
+image is derived. This occurs much more often than crosscompiler changes. Both images have an independant version numbering.
+
+_Note:_ If the git repository `ora-cc-rsc` is changed, the `openroberta/base` image and all images built upon it must be rebuilt. Better do not forget.
+The version of the `openroberta/base` image (a simple number) should match a tag in the git repository `ora-cc-rsc`.
+This reminds you, that the data from the tag is the data in the base image. The variable `BASE_VERSION` contains the number, which is both a tag name
 in git and a version number in docker.
+
+### step 1 (usually not needed, because the crosscompiler binaries are stable)
 
 ```bash
 BASE_DIR=/data/openroberta-lab
-BASE_VERSION=15
+CCBIN_VERSION=1
+
+cd $BASE_DIR/conf/docker-for-meta-1-cc-binaries
+docker build --no-cache -t openroberta/ccbin:$CCBIN_VERSION .
+docker push openroberta/ccbin:$CCBIN_VERSION
+```
+
+_NOTE:_ If `openroberta/ccbin` is rebuild, the version number has to be increased. Do _not_ forget, to increase the numer in the next section, too.
+
+### step 2 (more often needed, because our add-ons as header files, libs change)
+
+```bash
+BASE_DIR=/data/openroberta-lab
+CCBIN_VERSION=1 # this needed in the dockerfile!
+BASE_VERSION=16
 CC_RESOURCES=/data/openroberta-lab/git/ora-cc-rsc
 cd $CC_RESOURCES
 
@@ -30,7 +48,7 @@ git checkout develop; git pull; git checkout master; git pull
 git checkout tags/$BASE_VERSION
 
 mvn clean install # necessary to create the update resources for ev3- and arduino-based systems
-docker build --no-cache -t openroberta/base:$BASE_VERSION -f $BASE_DIR/conf/docker-for-meta/DockerfileBase_ubuntu_18_04 .
+docker build --no-cache -t openroberta/base:$BASE_VERSION -f $BASE_DIR/conf/docker-for-meta-2-cc-resources/Dockerfile .
 docker push openroberta/base:$BASE_VERSION
 ```
 
@@ -43,7 +61,7 @@ If called, it will checkout a branch and runs both the tests and the integration
 
 ```bash
 BASE_DIR=/data/openroberta-lab
-BASE_VERSION=15
+BASE_VERSION=16
 BRANCH=develop
 cd $BASE_DIR/conf/docker-for-test
 docker build --no-cache --build-arg BASE_VERSION=$BASE_VERSION --build-arg BRANCH=$BRANCH \
@@ -57,7 +75,7 @@ in case of success it returns 0, in case of errors/failures it returns 16. This 
 CI system (jenkins, travis, gitlab, bamboo, ...). To run it, execute:
 
 ```bash
-BASE_VERSION=15
+BASE_VERSION=16
 export BRANCH='develop'
 docker run openroberta/it:$BASE_VERSION $BRANCH x.x.x # x.x.x is the db version and unused for tests
 ```
