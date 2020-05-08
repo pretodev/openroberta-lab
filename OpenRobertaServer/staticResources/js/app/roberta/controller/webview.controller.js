@@ -122,7 +122,7 @@ define( ['exports', 'guiState.controller', 'interpreter.interpreter', 'interpret
                       for ( var i = 0; i < blocks.length; i++ ) {
                           if ( blocks[i].type === "robBrick_ORB-Brick" ) {
                               var field = blocks[i].getField( "VAR" );
-                              field.setValue( Blockly.Msg.ROBOT_DEFAULT_NAME_WEDO || Blockly.Msg.ROBOT_DEFAULT_NAME || "Brick1" );
+                              field.setValue( Blockly.Msg.ROBOT_DEFAULT_NAME_ORB || Blockly.Msg.ROBOT_DEFAULT_NAME || "Brick1" );
                               blocks[i].render();
                               var dom = Blockly.Xml.workspaceToDom( bricklyWorkspace );
                               var xml = Blockly.Xml.domToText( dom );

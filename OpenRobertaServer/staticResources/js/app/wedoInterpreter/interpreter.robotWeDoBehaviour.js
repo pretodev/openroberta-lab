@@ -35,7 +35,7 @@ define(["require", "exports", "interpreter.aRobotBehaviour", "interpreter.consta
         }
         RobotWeDoBehaviour.prototype.update = function (data) {
             U.info('update type:' + data.type + ' state:' + data.state + ' sensor:' + data.sensor + ' actor:' + data.actuator);
-            if (data.target !== "wedo") {
+            if (data.target !== "orb") {
                 return;
             }
             switch (data.type) {
@@ -196,21 +196,21 @@ define(["require", "exports", "interpreter.aRobotBehaviour", "interpreter.consta
             var brickid = this.getBrickIdByName(name);
             var robotText = 'robot: ' + name + ', port: ' + port;
             U.debug(robotText + ' led on color ' + color);
-            var cmd = { 'target': 'wedo', 'type': 'command', 'actuator': 'light', 'brickid': brickid, 'color': color };
+            var cmd = { 'target': 'orb', 'type': 'command', 'actuator': 'light', 'brickid': brickid, 'color': color };
             this.btInterfaceFct(cmd);
         };
         RobotWeDoBehaviour.prototype.statusLightOffAction = function (name, port) {
             var brickid = this.getBrickIdByName(name);
             var robotText = 'robot: ' + name + ', port: ' + port;
             U.debug(robotText + ' led off');
-            var cmd = { 'target': 'wedo', 'type': 'command', 'actuator': 'light', 'brickid': brickid, 'color': 0 };
+            var cmd = { 'target': 'orb', 'type': 'command', 'actuator': 'light', 'brickid': brickid, 'color': 0 };
             this.btInterfaceFct(cmd);
         };
         RobotWeDoBehaviour.prototype.toneAction = function (name, frequency, duration) {
             var brickid = this.getBrickIdByName(name); // TODO: better style
             var robotText = 'robot: ' + name;
             U.debug(robotText + ' piezo: ' + ', frequency: ' + frequency + ', duration: ' + duration);
-            var cmd = { 'target': 'wedo', 'type': 'command', 'actuator': 'piezo', 'brickid': brickid, 'frequency': Math.floor(frequency), 'duration': Math.floor(duration) };
+            var cmd = { 'target': 'orb', 'type': 'command', 'actuator': 'piezo', 'brickid': brickid, 'frequency': Math.floor(frequency), 'duration': Math.floor(duration) };
             this.btInterfaceFct(cmd);
             return duration;
         };
@@ -219,7 +219,7 @@ define(["require", "exports", "interpreter.aRobotBehaviour", "interpreter.consta
             var robotText = 'robot: ' + name + ', port: ' + port;
             var durText = duration === undefined ? ' w.o. duration' : (' for ' + duration + ' msec');
             U.debug(robotText + ' motor speed ' + speed + durText);
-            var cmd = { 'target': 'wedo', 'type': 'command', 'actuator': 'motor', 'brickid': brickid, 'action': 'on', 'id': port, 'direction': speed < 0 ? 1 : 0, 'power': Math.abs(speed) };
+            var cmd = { 'target': 'orb', 'type': 'command', 'actuator': 'motor', 'brickid': brickid, 'action': 'on', 'id': port, 'direction': speed < 0 ? 1 : 0, 'power': Math.abs(speed) };
             this.btInterfaceFct(cmd);
             return 0;
         };
@@ -227,7 +227,7 @@ define(["require", "exports", "interpreter.aRobotBehaviour", "interpreter.consta
             var brickid = this.getBrickIdByName(name); // TODO: better style
             var robotText = 'robot: ' + name + ', port: ' + port;
             U.debug(robotText + ' motor stop');
-            var cmd = { 'target': 'wedo', 'type': 'command', 'actuator': 'motor', 'brickid': brickid, 'action': 'stop', 'id': port };
+            var cmd = { 'target': 'orb', 'type': 'command', 'actuator': 'motor', 'brickid': brickid, 'action': 'stop', 'id': port };
             this.btInterfaceFct(cmd);
         };
         RobotWeDoBehaviour.prototype.showTextAction = function (text, _mode) {
