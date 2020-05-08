@@ -102,7 +102,7 @@ define( ['exports', 'guiState.controller', 'interpreter.interpreter', 'interpret
                       var bricklyWorkspace = GUISTATE_C.getBricklyWorkspace();
                       var blocks = bricklyWorkspace.getAllBlocks();
                       for ( var i = 0; i < blocks.length; i++ ) {
-                          if ( blocks[i].type === "robBrick_WeDo-Brick" ) {
+                          if ( blocks[i].type === "robBrick_ORB-Brick" ) {
                               var field = blocks[i].getField( "VAR" );
                               field.setValue( data.brickname.replace( /\s/g, '' ) );
                               blocks[i].render();
@@ -120,7 +120,7 @@ define( ['exports', 'guiState.controller', 'interpreter.interpreter', 'interpret
                       var bricklyWorkspace = GUISTATE_C.getBricklyWorkspace();
                       var blocks = bricklyWorkspace.getAllBlocks();
                       for ( var i = 0; i < blocks.length; i++ ) {
-                          if ( blocks[i].type === "robBrick_WeDo-Brick" ) {
+                          if ( blocks[i].type === "robBrick_ORB-Brick" ) {
                               var field = blocks[i].getField( "VAR" );
                               field.setValue( Blockly.Msg.ROBOT_DEFAULT_NAME_WEDO || Blockly.Msg.ROBOT_DEFAULT_NAME || "Brick1" );
                               blocks[i].render();
