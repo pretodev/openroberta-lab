@@ -57,6 +57,7 @@ require.config({
         'socket.controller' : '../app/roberta/controller/socket.controller',
         'webview.controller' : '../app/roberta/controller/webview.controller',
         'wedo.model' : '../app/roberta/models/wedo.model',
+        'orb.model' : '../app/roberta/models/orb.model',
 
         'sourceCodeEditor.controller' : '../app/roberta/controller/sourceCodeEditor.controller',
 

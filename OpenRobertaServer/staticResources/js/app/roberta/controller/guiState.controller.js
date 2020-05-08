@@ -557,6 +557,9 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         if (GUISTATE.gui.connection === GUISTATE.gui.connectionType.WEBVIEW && WEBVIEW_C.getWeDo().getConnectedBricks().length > 0) {
             return true;
         }
+        if (GUISTATE.gui.connection === GUISTATE.gui.connectionType.WEBVIEW && WEBVIEW_C.getOrb().getConnectedBricks().length > 0) {
+            return true;
+        }
         return false;
     }
     exports.isRobotConnected = isRobotConnected;

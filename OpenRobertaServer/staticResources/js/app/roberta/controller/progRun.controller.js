@@ -326,6 +326,20 @@ define([ 'exports', 'util', 'log', 'message', 'program.controller', 'program.mod
                     }
                 }
                 break;
+            case "orb":
+                interpreter = WEBVIEW_C.getOrbInterpreter(program);
+                if (interpreter !== null) {
+                    GUISTATE_C.setConnectionState("busy");
+                    blocklyWorkspace.robControls.switchToStop();
+                    try {
+                        runStepWedo();
+                    } catch (error) {
+                        interpreter.terminate();
+                        interpreter = null;
+                        alert(error);
+                    }
+                }
+                break;
             default:
                 // TODO
             }
