@@ -833,5 +833,6 @@ configuration:
   TOUCH: [robBrick_touch]
   ULTRASONIC: [robConf_ultrasonic, robBrick_ultrasonic]
   WEDO: [robBrick_WeDo-Brick]
+  ORB: [robBrick_ORB-Brick]
   WIRELESS: [robConf_wireless]
   PARTICLE: [robConf_particle]
