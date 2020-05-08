@@ -48,7 +48,7 @@ git checkout develop; git pull; git checkout master; git pull
 git checkout tags/$BASE_VERSION
 
 mvn clean install # necessary to create the update resources for ev3- and arduino-based systems
-docker build --no-cache -t openroberta/base:$BASE_VERSION -f $BASE_DIR/conf/docker-for-meta-2-cc-resources/Dockerfile .
+docker build --no-cache -t openroberta/base:$BASE_VERSION -f --build-arg CCBIN_VERSION=$CCBIN_VERSION $BASE_DIR/conf/docker-for-meta-2-cc-resources/Dockerfile .
 docker push openroberta/base:$BASE_VERSION
 ```
 
